@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar color="secondary">
+        <ion-title>Services</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="tasks">
+
+    <process *ngFor="let command of commands" [task]="command"></process>
+
+    <ion-card class="process">
+        <ion-item style="background-color: black">
+            <h2 style="color: white">MONGOD</h2>
+            <p style="color: green">Running: 00:01:50</p>
+        </ion-item>
+        <ion-segment [(ngModel)]="segSelect">
+                <ion-segment-button value="controls">
+                  Controls
+                </ion-segment-button>
+                <ion-segment-button value="logs">
+                  Logs
+                </ion-segment-button>
+            </ion-segment>
+        <ion-card-content>
+            <div [ngSwitch]="segSelect">
+                <ion-row *ngSwitchCase="'controls'">
+                    <ion-col>
+                        <button ion-button color="secondary" round full (click)="showOptions()">Start</button>
+                    </ion-col>
+                    <ion-col>
+                        <button ion-button color="danger" round full (click)="showOptions()">Stop</button>
+                    </ion-col>
+                </ion-row>
+                 <ion-row *ngSwitchCase="'logs'">
+                    <ion-col>
+                        <button ion-button color="primary" round full (click)="showOptions()">View</button>
+                    </ion-col>
+                    <ion-col>
+                        <button ion-button color="danger" round full (click)="showOptions()">Clear</button>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-card-content>
+    </ion-card>
+        
+       
+        
+        
+        
+    
+    
+    <ion-list text-wrap>
+        <ion-item *ngFor="let item of output"><{{item}}</ion-item>
+    </ion-list>
+
+</ion-content>

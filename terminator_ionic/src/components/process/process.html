@@ -1,0 +1,34 @@
+<ion-card class="process">
+    <ion-item style="background-color: black">
+        <h2 style="color: white">MONGOD</h2>
+        <p style="color: green">Running: 00:00:0{{ticks}}</p>
+    </ion-item>
+    <ion-segment [(ngModel)]="segSelect">
+            <ion-segment-button value="controls">
+              Controls
+            </ion-segment-button>
+            <ion-segment-button value="logs">
+              Logs
+            </ion-segment-button>
+        </ion-segment>
+    <ion-card-content>
+        <div [ngSwitch]="segSelect">
+            <ion-row *ngSwitchCase="'controls'">
+                <ion-col>
+                    <button ion-button color="secondary" round full (click)="startProcess()">{{process.controls[0]}}</button>
+                </ion-col>
+                <ion-col>
+                    <button ion-button color="danger" round full (click)="stopProcess()">{{process.controls[1]}}</button>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngSwitchCase="'logs'">
+                <ion-col>
+                    <button ion-button color="primary" round full>View</button>
+                </ion-col>
+                <ion-col>
+                    <button ion-button color="danger" round full>Clear</button>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-card-content>
+</ion-card>
