@@ -9,3 +9,7 @@ export interface Service {
 	name: String,
 	processes: Array<Process>
 }
+
+export interface Log {
+	output: string
+}

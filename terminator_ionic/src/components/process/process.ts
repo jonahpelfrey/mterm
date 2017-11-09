@@ -1,8 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {Subscription} from "rxjs";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
+import { Observable } from 'rxjs/Observable';
 
-import { Process } from '../../models/process.model';
+import { Process, Log } from '../../models/models';
+import { ProcessProvider } from '../../providers/process/process';
 
 @Component({
  	selector: 'process',
@@ -13,7 +15,7 @@ export class ProcessComponent implements OnChanges {
 
     //Process
     process: Process;
-    logs: Array<String> = ["View", "Clear"];
+    logs: Observable<Log[]>;
 
     //Component
     ticks: number = 0;
@@ -22,31 +24,17 @@ export class ProcessComponent implements OnChanges {
 
     //Params
     @Input() task: Process;
+    constructor(private processService: ProcessProvider) {
 
-    constructor() {}
+    }
 
-    //Clear the client logs for the current process
-    clearLogs(): void {
-        this.process.logs = [];
+    ngOnInit() {
+        this.logs = this.processService.logs;
     }
 
     //Called when updates are made to the task object
     ngOnChanges(): void {
          this.process = this.task;
-    }
-
-    //Show the logs for the given process
-    showLogs(): void {
-        //launch modal
-    }
-
-    //Make a request to start a process based on the ID
-    startProcess(): void {
-    	this.startTimer();
-    }
-
-    stopProcess(): void {
-    	this.stopTimer();
     }
 
     //Called when process is successfully started

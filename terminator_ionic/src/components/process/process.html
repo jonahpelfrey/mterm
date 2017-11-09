@@ -1,6 +1,6 @@
 <ion-card class="process">
     <ion-item style="background-color: black">
-        <h2 style="color: white">MONGOD | {{process.id}}</h2>
+        <h2 style="color: white; padding-bottom: 5px;">MONGOD <ion-icon name="ios-wifi" color="secondary"></ion-icon></h2>
         <p style="color: green">Running: 00:00:0{{ticks}}</p>
     </ion-item>
     <ion-segment [(ngModel)]="segSelect" style="background-color: black;">
@@ -15,10 +15,10 @@
         <div [ngSwitch]="segSelect">
             <ion-row *ngSwitchCase="'controls'">
                 <ion-col>
-                    <button ion-button color="secondary" round full (click)="startProcess()">{{process.controls[0]}}</button>
+                    <button ion-button color="secondary" round full (click)="startSocket()">Start</button>
                 </ion-col>
                 <ion-col>
-                    <button ion-button color="danger" round full (click)="stopProcess()">{{process.controls[1]}}</button>
+                    <button ion-button color="danger" round full (click)="stopProcess()">Stop</button>
                 </ion-col>
             </ion-row>
             <ion-row *ngSwitchCase="'logs'">

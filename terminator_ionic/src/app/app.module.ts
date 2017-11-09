@@ -14,6 +14,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ProcessComponent } from '../components/process/process';
 import { DataProvider } from '../providers/data/data';
 import { SocketProvider } from '../providers/socket/socket';
+import { HttpClientModule } from '@angular/common/http';
+import { ProcessProvider } from '../providers/process/process';
+import { NetworkProvider } from '../providers/network/network';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { SocketProvider } from '../providers/socket/socket';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,7 +46,11 @@ import { SocketProvider } from '../providers/socket/socket';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
-    SocketProvider
+    SocketProvider,
+    ProcessProvider,
+    NetworkProvider,
+    ProcessProvider,
+    NetworkProvider
   ]
 })
 export class AppModule {}

@@ -4,10 +4,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TabsPage } from '../pages/tabs/tabs';
+import { SocketProvider } from '../providers/socket/socket';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
+
 export class MyApp {
   rootPage:any = TabsPage;
 
@@ -19,4 +21,6 @@ export class MyApp {
       splashScreen.hide();
     });
   }
+
+
 }
