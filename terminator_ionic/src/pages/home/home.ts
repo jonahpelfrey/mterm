@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController } from 'ionic-angular';
 import { ProcessComponent } from '../../components/process/process';
-import { Process } from '../../models/process.model';
+import { Process } from '../../models/models';
 import * as io from 'socket.io-client';
 
 @Component({
@@ -32,7 +32,7 @@ export class HomePage {
     		}
     	});
 
-    	this.newTask = {id: 1, name: "Mongod", controls: ["Start", "Stop"]};
+    	this.newTask = {id: 1, name: "Mongod", controls: ["Start", "Stop"], logs: []};
     	this.commands.push(this.newTask);
   	}
 
@@ -44,5 +44,8 @@ export class HomePage {
   		this.output = [];
   	}
 
+    testObject(): void {
+      this.newTask.id = 5;
+    }
 
 }

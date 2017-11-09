@@ -12,6 +12,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ProcessComponent } from '../components/process/process';
+import { DataProvider } from '../providers/data/data';
+import { SocketProvider } from '../providers/socket/socket';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ProcessComponent } from '../components/process/process';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataProvider,
+    SocketProvider
   ]
 })
 export class AppModule {}

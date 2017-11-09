@@ -1,9 +1,9 @@
 <ion-card class="process">
     <ion-item style="background-color: black">
-        <h2 style="color: white">MONGOD</h2>
+        <h2 style="color: white">MONGOD | {{process.id}}</h2>
         <p style="color: green">Running: 00:00:0{{ticks}}</p>
     </ion-item>
-    <ion-segment [(ngModel)]="segSelect">
+    <ion-segment [(ngModel)]="segSelect" style="background-color: black;">
             <ion-segment-button value="controls">
               Controls
             </ion-segment-button>
