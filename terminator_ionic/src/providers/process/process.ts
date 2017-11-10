@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { SocketProvider } from '../socket/socket';
 import { NetworkProvider } from '../network/network';
-import { Log, Process } from '../../models/models';
+import { Log, Process, Connection } from '../../models/models';
 
 @Injectable()
 export class ProcessProvider {
@@ -17,9 +17,16 @@ export class ProcessProvider {
 	public readonly logs: Observable<Log[]> = this._logs.asObservable();
 
 	private socketService: SocketProvider;
+    private connection: BehaviorSubject<String> = new BehaviorSubject<String>("Disconnected");
+    public readonly connectionChange: Observable<any> = this.connection.asObservable();
+
+    private process: Process;
+    private state: BehaviorSubject<String> = new BehaviorSubject<String>("Stopped");
+    public readonly stateChange: Observable<any> = this.state.asObservable();
 
 	constructor(private networkService: NetworkProvider) {
 
+        // this.process = process;
 		this.socketService = new SocketProvider();
         this.configureSocket();
   	}
@@ -27,30 +34,46 @@ export class ProcessProvider {
     configureSocket(): void {
  
         this.socketService.onConnect().subscribe(
-            () => console.log('Connected')
+            () => this.handleConnection()
         );
 
         this.socketService.onDisconnect().subscribe(
-            () => console.log('Disconnected')
+            () => this.handleDisconnection()
         );
 
         this.socketService.onSocketError().subscribe(
-            () => console.log('Connection Error')
+            () => this.handleSocketError()
         );
     }
 
-  	startProcess(process: Process): void {
-  		this.networkService.spawn(process).subscribe(res => {
-              //handle response
-          }, error => console.log(error));
-  	}
+    private handleConnection(): void {
+        //Handle event
+        this.connection.next("Connected");
+    }
 
-    endProcess(process: Process): void {
-        this.networkService.kill(process).subscribe(res => {
-            //handle response
+    private handleDisconnection(): void {
+        //Handle event
+        this.connection.next("Disconnected");
+    }
+
+    private handleSocketError(): void {
+        //Handle event
+        this.connection.next("Connection Error");
+    }
+
+    startProcess(): void {
+        this.networkService.spawn(this.process).subscribe(res => {
+           //handle response
+           this.state.next("Running");
         }, error => console.log(error));
     }
 
+    endProcess(): void {
+        this.networkService.kill(this.process).subscribe(res => {
+           //handle response
+           this.state.next("Stopped");
+        }, error => console.log(error));
+    }
 
 
 }

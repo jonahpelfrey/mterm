@@ -16,7 +16,8 @@ export class ProcessComponent implements OnChanges {
     //Process
     process: Process;
     logs: Observable<Log[]>;
-
+    processState: Observable<String>;
+    socketConnection: Observable<String>;
     //Component
     ticks: number = 0;
     timer: Subscription;
@@ -25,7 +26,8 @@ export class ProcessComponent implements OnChanges {
     //Params
     @Input() task: Process;
     constructor(private processService: ProcessProvider) {
-
+        this.processState = processService.stateChange;
+        this.socketConnection = processService.connectionChange;
     }
 
     ngOnInit() {

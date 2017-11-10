@@ -22,7 +22,7 @@ export class SocketProvider {
 
   	onConnect(): Observable<any> {
   		return new Observable(observer => {
-  			this.socket.on('connect', () => observer.next());
+  			this.socket.on('connect', (data) => observer.next());
   		});
   	}
 

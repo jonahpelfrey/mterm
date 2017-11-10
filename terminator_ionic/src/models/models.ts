@@ -17,7 +17,5 @@ export interface Log {
 }
 
 export interface Connection {
-	connected: Observable<boolean>,
-	disconnected: Observable<boolean>,
-	error: Observable<boolean>
+	status: string
 }
