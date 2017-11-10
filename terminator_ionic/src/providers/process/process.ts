@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { SocketProvider } from '../socket/socket';
@@ -20,43 +21,36 @@ export class ProcessProvider {
 	constructor(private networkService: NetworkProvider) {
 
 		this.socketService = new SocketProvider();
+        this.configureSocket();
+  	}
 
+    configureSocket(): void {
+ 
         this.socketService.onConnect().subscribe(
-            x => {},
-            e => {},
             () => console.log('Connected')
         );
 
         this.socketService.onDisconnect().subscribe(
-        	x => {},
-        	e => {},
-        	() => console.log('Disconnected')
+            () => console.log('Disconnected')
         );
 
-        this.socketService.logs().subscribe(
-        	logs => {
-        		this.logList.push(logs);
-        		this._logs.next(this.logList);
-        	},
-        	error => {
-        		console.log(error);
-        	}
+        this.socketService.onSocketError().subscribe(
+            () => console.log('Connection Error')
         );
+    }
 
-  	}
-
-  	onStart(process: Process): void {
+  	startProcess(process: Process): void {
   		this.networkService.spawn(process).subscribe(res => {
               //handle response
-          }, err => console.log(err));
+          }, error => console.log(error));
   	}
 
-    onEnd(process: Process): void {
+    endProcess(process: Process): void {
         this.networkService.kill(process).subscribe(res => {
             //handle response
-        }, err => console.log(err));
+        }, error => console.log(error));
     }
-  	
+
 
 
 }

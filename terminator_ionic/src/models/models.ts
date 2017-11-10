@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 export interface Process {
 	id: Number,
 	name: String,
@@ -12,4 +14,10 @@ export interface Service {
 
 export interface Log {
 	output: string
+}
+
+export interface Connection {
+	connected: Observable<boolean>,
+	disconnected: Observable<boolean>,
+	error: Observable<boolean>
 }
