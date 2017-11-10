@@ -17,6 +17,7 @@ import { SocketProvider } from '../providers/socket/socket';
 import { HttpClientModule } from '@angular/common/http';
 import { ProcessProvider } from '../providers/process/process';
 import { NetworkProvider } from '../providers/network/network';
+import { ServiceManager } from './control/service.manager';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { NetworkProvider } from '../providers/network/network';
     ProcessProvider,
     NetworkProvider,
     ProcessProvider,
-    NetworkProvider
+    NetworkProvider,
+    ServiceManager
   ]
 })
 export class AppModule {}

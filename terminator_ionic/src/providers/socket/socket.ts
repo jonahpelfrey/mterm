@@ -9,11 +9,13 @@ import { Process } from '../../models/models';
 @Injectable()
 export class SocketProvider {
 
-	private sockAddr: string = 'http://localhost:5000';
 	socket: SocketIOClient.Socket;
 
-  	constructor() {this.socket = io(this.sockAddr);}
-
+  	constructor(connection: string) {
+  		this.socket = io(connection);
+  		// console.log("Connection: " + connection);
+  	}
+  	
   	logs(): Observable<any> {
   		return Observable.create(observer => {
   			this.socket.on('stdout', (item: any) => observer.next(item));
@@ -22,7 +24,7 @@ export class SocketProvider {
 
   	onConnect(): Observable<any> {
   		return new Observable(observer => {
-  			this.socket.on('connect', (data) => observer.next());
+  			this.socket.on('connect', () => observer.next());
   		});
   	}
 
@@ -35,6 +37,14 @@ export class SocketProvider {
   	onSocketError(): Observable<any> {
   		return new Observable(observer => {
   			this.socket.on('connect_error', () => observer.next());
+  		});
+  	}
+
+  	onEvent(): Observable<string> {
+  		return new Observable(observer => {
+  			this.socket.on('connect', () => observer.next('Connected'));
+  			this.socket.on('disconnect', () => observer.next('Disconnected'));
+  			this.socket.on('connect_error', () => observer.next('Connection Error'));
   		});
   	}
 

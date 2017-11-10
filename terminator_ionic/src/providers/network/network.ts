@@ -10,31 +10,17 @@ import { Log, Process, Service } from '../../models/models';
 @Injectable()
 export class NetworkProvider {
 
-	private serviceList: Service[];
-	private _services: BehaviorSubject<Service[]> = new BehaviorSubject([]);
-	public readonly services: Observable<Service[]> = this._services.asObservable();
 
   	constructor(public http: HttpClient) {
     
   	}
 
-  	spawn(process: Process): Observable<any>{
-  		return Observable.create(observer => {
-  			this.http.post('/api/start', process)
-  		});
+  	spawn(process: string): Observable<any>{
+  		return this.http.post('/spawn/', process);
   	}
 
   	kill(process: Process): Observable<any>{
-  		return Observable.create(observer => {
-  			this.http.post('/api/end', process)
-  		});
-  	}
-
-  	getServices() {
-  		this.http.get<Service[]>('/api/services').subscribe(res => {
-  			this.serviceList = res;
-  			this._services.next(this.serviceList);
-  		}, err => console.log(err));
+  		return this.http.post('/kill/', process);
   	}
 
 

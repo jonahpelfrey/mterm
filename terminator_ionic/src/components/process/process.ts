@@ -1,10 +1,12 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import {Subscription} from "rxjs";
-import {TimerObservable} from "rxjs/observable/TimerObservable";
+import { Subscription } from "rxjs";
 import { Observable } from 'rxjs/Observable';
 
 import { Process, Log } from '../../models/models';
 import { ProcessProvider } from '../../providers/process/process';
+import { ServiceManager } from '../../app/control/service.manager';
+
+import { IService } from '../../models/service.model';
 
 @Component({
  	selector: 'process',
@@ -25,13 +27,13 @@ export class ProcessComponent implements OnChanges {
 
     //Params
     @Input() task: Process;
-    constructor(private processService: ProcessProvider) {
-        this.processState = processService.stateChange;
-        this.socketConnection = processService.connectionChange;
+    constructor(private serviceManager: ServiceManager) {
+        // this.processState = processService.stateChange;
+        // this.socketConnection = processService.connectionChange;
     }
 
     ngOnInit() {
-        this.logs = this.processService.logs;
+        // this.logs = this.processService.logs;
     }
 
     //Called when updates are made to the task object
@@ -41,7 +43,7 @@ export class ProcessComponent implements OnChanges {
 
     //Called when process is successfully started
     private startTimer(): void {
-    	let timerObj = TimerObservable.create(1000, 1000);
+    	let timerObj = Observable.timer(0, 1000);
     	this.timer = timerObj.subscribe(t => {
       	    this.ticks = t;
         });
@@ -53,3 +55,40 @@ export class ProcessComponent implements OnChanges {
     }
 
 }
+
+// export class ServiceView {
+
+//     services: Observable<IService[]>;
+
+//     constructor(private serviceManager: ServiceManager) {
+
+//         this.services = this.serviceManager.services;
+//     }
+
+//     //Start a service
+//     start(serviceId: string) {
+//         this.serviceManager.start(serviceId);
+//     }
+
+//     //Stop a service
+//     stop(serviceId: string) {
+//         this.serviceManager.stop(serviceId);
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
